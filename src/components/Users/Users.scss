@@ -1,0 +1,14 @@
+.user-item {
+  margin-bottom: 1rem;
+  border-radius: 4px;
+  overflow: hidden;
+  transition: transform 0.3s;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+
+  .card-header {
+    cursor: pointer;
+  }
+}
