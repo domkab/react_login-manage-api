@@ -1,10 +1,13 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react';
 import { User } from '../User/User.js'
+import { UserForm } from './UserForm.js'
 import './Users.scss'
 
 export function Users () {
+  const formRef = useRef(null)
   const [users, setUsers] = useState([])
   const [selectedUser, setSelectedUser] = useState(null)
+  const [isFormVisible, setIsFormVisible] = useState(false)
   const [newUser, setNewUser] = useState({
     name: '',
     username: '',
@@ -24,6 +27,8 @@ export function Users () {
     city: '',
     zipcode: ''
   })
+
+  const [editedUser, setEditedUser] = useState(null);
 
   useEffect(() => {
     fetch('http://localhost:3000/users')
@@ -111,6 +116,17 @@ export function Users () {
     })
   }
 
+  const handleEditUser = user => {
+    setEditedUser(user);
+    setIsFormVisible(true);
+ };
+
+  useEffect(() => {
+    if (isFormVisible && formRef.current) {
+      formRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [isFormVisible]);
+
   return (
     <div className='container'>
       <h1 className='title'>Users</h1>
@@ -127,108 +143,28 @@ export function Users () {
         ))}
       </div>
 
-      <form onSubmit={handleFormSubmit} className='form'>
-        <div class='field'>
-          <label className='label' htmlFor='username'>
-            Username
-          </label>
-          <div class='control'>
-            <input
-              type='text'
-              name='name'
-              value={newUser.name}
-              onChange={handleInputChange}
-              placeholder='Name'
-              required
-            />
-          </div>
-        </div>
-        <div class='control'>
-          <input
-            type='text'
-            name='username'
-            value={newUser.username}
-            onChange={handleInputChange}
-            placeholder='Username'
-            required
-          />
-        </div>
-        <div class='control'>
-          <input
-            type='email'
-            name='email'
-            value={newUser.email}
-            onChange={handleInputChange}
-            placeholder='Email'
-            required
-          />
-        </div>
-        <div class='control'>
-          <input
-            type='text'
-            name='street'
-            value={newAddress.street}
-            onChange={handleAddressChange}
-            placeholder='Street'
-            required
-          />
-        </div>
-        <div class='control'>
-          <input
-            type='text'
-            name='suite'
-            value={newAddress.suite}
-            onChange={handleAddressChange}
-            placeholder='Suite'
-          />
-        </div>
-        <div class='control'>
-          <input
-            type='text'
-            name='website'
-            value={newUser.website}
-            onChange={handleInputChange}
-            placeholder='Website'
-          />
-        </div>
+      <button
+        className={`button is-success ${isFormVisible ? 'is-active' : ''}`}
+        onClick={() => setIsFormVisible(!isFormVisible)}
+      >
+        {isFormVisible ? 'Hide Form' : 'Add User'}
+      </button>
 
-        <div class='control'>
-          <input
-            type='text'
-            name='company.name'
-            value={newUser.company.name}
-            onChange={handleInputChange}
-            placeholder='Company Name'
+      {isFormVisible && (
+        <div 
+          onSubmit={handleFormSubmit} 
+          className='form'
+          ref={formRef}
+        >
+          <UserForm
+            newUser={newUser}
+            newAddress={newAddress}
+            handleInputChange={handleInputChange}
+            handleAddressChange={handleAddressChange}
+            handleFormSubmit={handleFormSubmit}
           />
         </div>
-
-        <div class='control'>
-          <input
-            type='text'
-            name='company.catchPhrase'
-            value={newUser.company.catchPhrase}
-            onChange={handleInputChange}
-            placeholder='Catch Phrase'
-          />
-        </div>
-
-        <div class='control'>
-          <input
-            type='text'
-            name='company.bs'
-            value={newUser.company.bs}
-            onChange={handleInputChange}
-            placeholder='Business'
-          />
-        </div>
-        <div className='field is-grouped'>
-          <div className='control'>
-            <button type='submit' className='button is-link'>
-              Add User
-            </button>
-          </div>
-        </div>
-      </form>
+      )}
     </div>
   )
 }

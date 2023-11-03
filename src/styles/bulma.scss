@@ -1,2 +1,9 @@
 @import "~bulma/bulma.sass";
 
+.navbar-menu {
+  display: flex !important;
+}
+
+.navbar-burger {
+  display: none !important;
+}

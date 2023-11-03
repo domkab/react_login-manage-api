@@ -1,0 +1,9 @@
+.custom-navbar {
+  justify-content: center;
+
+  .navbar-start {
+    display: flex;
+    justify-content: center;
+    flex-grow: 1;
+  }
+}

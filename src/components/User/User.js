@@ -63,6 +63,13 @@ export function User ({ user, selectedUser, onUserClick, onDelete }) {
             >
               Delete
             </button>
+
+            <button
+              className='card-footer-item button is-warning'
+              onClick={() => onEdit(user)}
+            >
+              Edit
+            </button>
           </footer>
         </div>
       )}
