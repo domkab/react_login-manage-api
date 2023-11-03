@@ -6,7 +6,8 @@ export function UserForm ({
   newAddress,
   handleInputChange,
   handleAddressChange,
-  handleFormSubmit
+  handleFormSubmit,
+  isEditing
 }) {
   return (
     <form onSubmit={handleFormSubmit} className='form'>
@@ -174,7 +175,7 @@ export function UserForm ({
           <div className='field is-grouped is-grouped-centered'>
             <div className='control'>
               <button type='submit' className='user__add-button button is-link'>
-                Add User
+                {isEditing ? 'Save User' : 'Add User'}
               </button>
             </div>
           </div>

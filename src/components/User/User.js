@@ -1,6 +1,6 @@
 import React from 'react'
 
-export function User ({ user, selectedUser, onUserClick, onDelete }) {
+export function User ({ user, selectedUser, onUserClick, onDelete, onEdit }) {
   const handleDelete = () => {
     onDelete(user.id)
   }
