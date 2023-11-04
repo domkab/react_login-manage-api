@@ -58,3 +58,8 @@ export const updateUser = (userId, updatedUser) =>
 export const deleteUser = userId => del(`/users/${userId}`)
 
 export const getTodos = () => get('/todos');
+
+export const updateTodo = (todoId, updatedTodo) =>
+  put(`/todos/${todoId}`, updatedTodo);
+
+export const deleteTodo = todoId => del(`/todos/${todoId}`);

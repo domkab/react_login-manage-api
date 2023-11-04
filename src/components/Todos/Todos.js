@@ -93,6 +93,20 @@ export const Todos = () => {
     setSelectedTodo(todo)
   }
 
+  const onDeleteTodo = todoId => {
+    setFilteredTodos(currentTodos =>
+      currentTodos.filter(todo => todo.id !== todoId)
+    )
+  }
+
+  const onTodoUpdate = updatedTodo => {
+    setFilteredTodos(currentTodos =>
+      currentTodos.map(todo =>
+        todo.id === updatedTodo.id ? updatedTodo : todo
+      )
+    )
+  }
+
   return (
     <>
       <div className='section'>
@@ -115,6 +129,7 @@ export const Todos = () => {
               <TodoList
                 todos={filteredTodos}
                 onTodoSelect={handleTodoSelect}
+                onDeleteTodo={onDeleteTodo}
                 selectedTodo={selectedTodo}
               />
             </div>
@@ -123,7 +138,11 @@ export const Todos = () => {
       </div>
 
       {selectedTodo && (
-        <TodoModal todo={selectedTodo} onTodoSelect={handleTodoSelect} />
+        <TodoModal
+          todo={selectedTodo}
+          onTodoUpdate={onTodoUpdate}
+          onTodoSelect={handleTodoSelect}
+        />
       )}
     </>
   )

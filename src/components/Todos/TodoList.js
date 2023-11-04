@@ -1,8 +1,18 @@
 import cn from 'classnames'
 import React from 'react'
+import { deleteTodo } from '../../api/api'
 
-export function TodoList ({ todos, onTodoSelect, selectedTodo }) {
-  
+export function TodoList ({ todos, onTodoSelect, selectedTodo, onDeleteTodo }) {
+  const handleDelete = todoId => {
+    deleteTodo(todoId)
+      .then(() => {
+        onDeleteTodo(todoId)
+      })
+      .catch(error => {
+        console.error('There was an error deleting the todo:', error)
+      })
+  }
+
   return (
     <table className='table is-narrow is-fullwidth'>
       <thead>
@@ -40,6 +50,16 @@ export function TodoList ({ todos, onTodoSelect, selectedTodo }) {
               </p>
             </td>
             <td className='has-text-right is-vcentered'>
+              <button
+                type='button'
+                className='button is-danger is-small'
+                onClick={() => handleDelete(todo.id)}
+              >
+                <span className='icon'>
+                  <i className='fas fa-trash-alt'></i>
+                </span>
+              </button>
+
               <button
                 type='button'
                 className='button'

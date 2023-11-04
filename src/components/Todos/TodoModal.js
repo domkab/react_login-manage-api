@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import cn from 'classnames'
 import { Loader } from './Loader'
-import { getUser } from '../../api/api'
+import { getUser, updateTodo } from '../../api/api'
 
-export const TodoModal = ({ todo, onTodoSelect }) => {
+export const TodoModal = ({ todo, onTodoSelect, onTodoUpdate }) => {
   const [isLoading, setIsLoading] = useState(true)
   const [user, setUser] = useState(null)
+  const [editTitle, setEditTitle] = useState(todo?.title)
+  const [isEditing, setIsEditing] = useState(false)
 
   useEffect(() => {
     if (todo) {
@@ -17,6 +19,21 @@ export const TodoModal = ({ todo, onTodoSelect }) => {
         })
     }
   }, [todo])
+
+  const handleUpdate = () => {
+    const updatedTodo = { ...todo, title: editTitle }
+    const todoId = todo.id
+
+    updateTodo(todoId, updatedTodo)
+      .then(() => {
+        onTodoUpdate(updatedTodo)
+        setIsEditing(false)
+        onTodoSelect(null)
+      })
+      .catch(error =>
+        console.error('There was an error updating the todo:', error)
+      )
+  }
 
   return (
     <div className='modal is-active' data-cy='modal'>
@@ -46,9 +63,42 @@ export const TodoModal = ({ todo, onTodoSelect }) => {
           </header>
 
           <div className='modal-card-body'>
-            <p className='block' data-cy='modal-title'>
-              {todo?.title}
-            </p>
+            {isEditing ? (
+              <>
+                <input
+                  type='text'
+                  className='input'
+                  value={editTitle}
+                  onChange={e => setEditTitle(e.target.value)}
+                />
+                <button
+                  type='button'
+                  className='button is-info'
+                  onClick={handleUpdate}
+                >
+                  Save
+                </button>
+                <button
+                  type='button'
+                  className='button'
+                  onClick={() => setIsEditing(false)}
+                >
+                  Cancel
+                </button>
+              </>
+            ) : (
+              <>
+                <p className='block' data-cy='modal-title'>
+                  {todo?.title}
+                  <span
+                    className='icon has-text-info'
+                    onClick={() => setIsEditing(true)}
+                  >
+                    <i className='fas fa-pencil-alt'></i>
+                  </span>
+                </p>
+              </>
+            )}
 
             <p className='block' data-cy='modal-user'>
               <strong
