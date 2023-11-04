@@ -1,21 +1,60 @@
-const BASE_URL = 'https://mate-academy.github.io/react_dynamic-list-of-todos/api';
+const BASE_URL = 'http://localhost:3000'
 
-function wait(delay) {
+function wait (delay) {
   return new Promise(resolve => {
-    setTimeout(resolve, delay);
-  });
+    setTimeout(resolve, delay)
+  })
 }
 
-function get(url) {
-  // eslint-disable-next-line prefer-template
-  const fullURL = BASE_URL + url + '.json';
+function get (url) {
+  const fullURL = BASE_URL + url
 
-  // we add some delay to see how the loader works
   return wait(300)
     .then(() => fetch(fullURL))
-    .then(res => res.json());
+    .then(res => res.json())
 }
 
-export const getTodos = () => get('/todos');
+function post (url, data) {
+  const fullURL = BASE_URL + url
 
-export const getUser = (userId) => get(`/users/${userId}`);
+  return fetch(fullURL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  }).then(res => res.json())
+}
+
+function put (url, data) {
+  const fullURL = BASE_URL + url
+
+  return fetch(fullURL, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  }).then(res => res.json())
+}
+
+function del (url) {
+  const fullURL = BASE_URL + url
+
+  return fetch(fullURL, {
+    method: 'DELETE'
+  })
+}
+
+export const getUsers = () => get('/users')
+
+export const getUser = userId => get(`/users/${userId}`)
+
+export const createUser = user => post('/users', user)
+
+export const updateUser = (userId, updatedUser) =>
+  put(`/users/${userId}`, updatedUser)
+
+export const deleteUser = userId => del(`/users/${userId}`)
+
+export const getTodos = () => get('/todos');

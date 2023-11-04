@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { User } from '../User/User.js'
 import { UserForm } from './UserForm.js'
+import { getUsers, createUser, updateUser, deleteUser } from '../../api/api.js'
 import './Users.scss'
 
 export function Users () {
@@ -11,10 +12,10 @@ export function Users () {
   const [isFormVisible, setIsFormVisible] = useState(false)
   const toggleFormVisibility = () => {
     if (isFormVisible) {
-        resetForm();
+      resetForm()
     }
-    setIsFormVisible(!isFormVisible);
-};
+    setIsFormVisible(!isFormVisible)
+  }
 
   const [newUser, setNewUser] = useState({
     name: '',
@@ -39,8 +40,7 @@ export function Users () {
   const [editedUser, setEditedUser] = useState(null)
 
   useEffect(() => {
-    fetch('http://localhost:3000/users')
-      .then(response => response.json())
+    getUsers()
       .then(data => setUsers(data))
       .catch(error => console.error(error))
   }, [])
@@ -51,10 +51,21 @@ export function Users () {
 
   const handleInputChange = event => {
     const { name, value } = event.target
-    setNewUser({
-      ...newUser,
-      [name]: value
-    })
+    if (name.includes('company.')) {
+      const field = name.split('.')[1]
+      setNewUser({
+        ...newUser,
+        company: {
+          ...newUser.company,
+          [field]: value
+        }
+      })
+    } else {
+      setNewUser({
+        ...newUser,
+        [name]: value
+      })
+    }
   }
 
   const handleAddressChange = event => {
@@ -67,77 +78,58 @@ export function Users () {
 
   const resetForm = () => {
     setNewUser({
+      name: '',
+      username: '',
+      email: '',
+      phone: '',
+      website: '',
+      company: {
         name: '',
-        username: '',
-        email: '',
-        phone: '',
-        website: '',
-        company: {
-            name: '',
-            catchPhrase: '',
-            bs: ''
-        }
-    });
+        catchPhrase: '',
+        bs: ''
+      }
+    })
     setNewAddress({
-        street: '',
-        suite: '',
-        city: '',
-        zipcode: ''
-    });
-    setEditedUser(null);
- };
+      street: '',
+      suite: '',
+      city: '',
+      zipcode: ''
+    })
+    setEditedUser(null)
+  }
 
-const handleFormSubmit = event => {
-  console.log('handleFormSubmit called');
-  event.preventDefault();
+  const handleFormSubmit = event => {
+    event.preventDefault()
 
-  const userWithAddress = {
+    const userWithAddress = {
       ...newUser,
       address: newAddress
-  };
+    }
 
-  const url = editedUser
-      ? `http://localhost:3000/users/${editedUser.id}`
-      : 'http://localhost:3000/users';
-  const method = editedUser ? 'PUT' : 'POST';
+    const userAction = editedUser
+      ? updateUser(editedUser.id, userWithAddress)
+      : createUser(userWithAddress)
 
-  fetch(url, {
-      method,
-      headers: {
-          'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(userWithAddress)
-  })
-  .then(response => {
-      if (!response.ok) {
-          throw new Error('Network response was not ok ' + response.statusText);
-      }
-      return response.json();
-  })
-  .then(data => {
-      refreshUsers();
-      resetForm();
-  })
-  .catch(error => console.error(error));
-};
- 
+    userAction
+      .then(() => {
+        refreshUsers()
+        resetForm()
+        setIsFormVisible(false)
+      })
+      .catch(error => console.error(error))
+  }
   const refreshUsers = () => {
-    console.log('refreshUsers called');
-    fetch('http://localhost:3000/users')
-      .then(response => response.json())
+    console.log('refreshUsers called')
+
+    getUsers()
       .then(data => setUsers(data))
       .catch(error => console.error(error))
   }
 
   const handleDeleteUser = userId => {
-    fetch(`http://localhost:3000/users/${userId}`, {
-      method: 'DELETE'
-    }).then(response => {
-      if (!response.ok) {
-        refreshUsers()
-      }
-      refreshUsers()
-    })
+    deleteUser(userId)
+      .then(() => refreshUsers())
+      .catch(error => console.error(error))
   }
 
   const handleEditUser = user => {
