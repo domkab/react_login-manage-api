@@ -20,6 +20,10 @@ export function Navbar () {
           <Link className='navbar-item' to='/users'>
             Users
           </Link>
+
+          <Link className='navbar-item' to='/todos'>
+            Todos
+          </Link>
         </div>
       </div>
     </nav>
