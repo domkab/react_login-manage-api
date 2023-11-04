@@ -47,19 +47,16 @@ function del (url) {
 }
 
 export const getUsers = () => get('/users')
-
 export const getUser = userId => get(`/users/${userId}`)
-
 export const createUser = user => post('/users', user)
-
 export const updateUser = (userId, updatedUser) =>
   put(`/users/${userId}`, updatedUser)
-
 export const deleteUser = userId => del(`/users/${userId}`)
 
 export const getTodos = () => get('/todos');
-
 export const updateTodo = (todoId, updatedTodo) =>
   put(`/todos/${todoId}`, updatedTodo);
-
 export const deleteTodo = todoId => del(`/todos/${todoId}`);
+export const createTodo = todo => post('/todos', todo);
+
+export const getProfile = () => get('/profile');

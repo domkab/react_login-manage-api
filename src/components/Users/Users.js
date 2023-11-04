@@ -179,7 +179,7 @@ export function Users () {
       </div>
 
       <button
-        className={`button is-success ${isFormVisible ? 'is-active' : ''}`}
+        className={`button form__button is-success ${isFormVisible ? 'is-active' : ''}`}
         onClick={toggleFormVisibility}
       >
         {isFormVisible ? 'Hide Form' : 'Add User'}

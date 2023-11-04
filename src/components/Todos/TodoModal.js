@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import './TodoModal.scss'
 import cn from 'classnames'
 import { Loader } from './Loader'
 import { getUser, updateTodo } from '../../api/api'
@@ -88,10 +89,10 @@ export const TodoModal = ({ todo, onTodoSelect, onTodoUpdate }) => {
               </>
             ) : (
               <>
-                <p className='block' data-cy='modal-title'>
+                <p className='block todo-modal-title' data-cy='modal-title'>
                   {todo?.title}
                   <span
-                    className='icon has-text-info'
+                    className='icon has-text-info edit-icon'
                     onClick={() => setIsEditing(true)}
                   >
                     <i className='fas fa-pencil-alt'></i>

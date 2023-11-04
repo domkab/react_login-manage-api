@@ -62,7 +62,7 @@ export function TodoList ({ todos, onTodoSelect, selectedTodo, onDeleteTodo }) {
 
               <button
                 type='button'
-                className='button'
+                className='button is-small'
                 onClick={() => onTodoSelect(todo)}
               >
                 {selectedTodo && selectedTodo.id === todo.id ? (
