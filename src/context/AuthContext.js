@@ -5,11 +5,12 @@ export const AuthContext = createContext()
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
 
-  const login = (username, password) => {
-    // Add your authentication logic here
-    if (username === 'Admin' && password === 'test1234') {
+  const login = profile => {
+    if (profile) {
+      console.log('login successful')
       setIsAuthenticated(true)
     } else {
+      console.log('login failed')
       alert('Invalid credentials')
     }
   }

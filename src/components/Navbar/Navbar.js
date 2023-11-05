@@ -11,8 +11,6 @@ export function Navbar () {
     >
       <div className='navbar-menu'>
         <div className='navbar-start'>
-          {/* Add more navigation items here */}
-
           <Link className='navbar-item' to='/'>
             Home
           </Link>

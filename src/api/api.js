@@ -60,3 +60,4 @@ export const deleteTodo = todoId => del(`/todos/${todoId}`);
 export const createTodo = todo => post('/todos', todo);
 
 export const getProfile = () => get('/profile');
+export const updateProfile = (updatedProfile) => put('/profile', updatedProfile);
