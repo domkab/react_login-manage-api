@@ -20,7 +20,7 @@ export function ProfileTasks ({ profileId }) {
   }
 
   const handleAddTask = () => {
-    createTask(newTask, profile.id)
+    createTask(newTask, profileId)
       .then(task => {
         setTasks(prevTasks => [...prevTasks, task])
         setNewTask('')
@@ -36,22 +36,39 @@ export function ProfileTasks ({ profileId }) {
   }
 
   const handleUpdateTask = async () => {
-    // Replace with your actual implementation
-    // await updateTask(editingTaskId, editingTaskText);
-    setEditingTaskId(null)
-    setEditingTaskText('')
+    if (editingTaskId && editingTaskText.trim() !== '') {
+      try {
+        const updatedTask = await updateTask(editingTaskId, {
+          title: editingTaskText
+        })
+        setTasks(prevTasks =>
+          prevTasks.map(task =>
+            task.id === editingTaskId ? updatedTask : task
+          )
+        )
+        setEditingTaskId(null)
+        setEditingTaskText('')
+      } catch (error) {
+        console.error('Failed to update task:', error)
+      }
+    }
   }
 
   const handleDeleteTask = async taskId => {
-    // Replace with your actual implementation
-    // await deleteTask(taskId);
+    try {
+      await deleteTask(taskId)
+
+      setTasks(prevTasks => prevTasks.filter(task => task.id !== taskId))
+    } catch (error) {
+      console.error('Failed to delete task:', error)
+    }
   }
 
   return (
     <div className='box'>
       <h2 className='title is-4'>Tasks</h2>
-      <div className='field'>
-        <div className='control'>
+      <div className='field has-addons'>
+        <div className='control is-expanded'>
           <input
             type='text'
             className='input'
@@ -60,46 +77,71 @@ export function ProfileTasks ({ profileId }) {
             onChange={handleNewTaskChange}
           />
         </div>
+        <div className='control'>
+          <button onClick={handleAddTask} className='button is-link'>
+            Add Task
+          </button>
+        </div>
       </div>
-      <button onClick={handleAddTask} className='button is-link'>
-        Add Task
-      </button>
-      <ul>
-        {tasks.length > 0 ? (
-          tasks.map(task =>
-            editingTaskId === task.id ? (
-              <li key={task.id}>
-                <input
-                  type='text'
-                  value={editingTaskText}
-                  onChange={e => setEditingTaskText(e.target.value)}
-                />
-                <button onClick={handleUpdateTask} className='button is-link'>
-                  Save
-                </button>
-              </li>
-            ) : (
-              <li key={task.id}>
-                {task.title}
-                <button
-                  onClick={() => handleEditTask(task.id, task.text)}
-                  className='button is-link'
-                >
-                  Edit
-                </button>
-                <button
-                  onClick={() => handleDeleteTask(task.id)}
-                  className='button is-danger'
-                >
-                  Delete
-                </button>
-              </li>
-            )
-          )
-        ) : (
-          <li>No tasks available</li>
-        )}
-      </ul>
+      <table className='table is-narrow is-fullwidth'>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {tasks.length > 0 ? (
+            tasks.map(task => (
+              <tr key={task.id}>
+                <td>{task.id}</td>
+                <td>
+                  {editingTaskId === task.id ? (
+                    <input
+                      type='text'
+                      className='input'
+                      value={editingTaskText}
+                      onChange={e => setEditingTaskText(e.target.value)}
+                    />
+                  ) : (
+                    <p>{task.title}</p>
+                  )}
+                </td>
+                <td>
+                  {editingTaskId === task.id ? (
+                    <button
+                      onClick={handleUpdateTask}
+                      className='button is-success is-small'
+                    >
+                      Save
+                    </button>
+                  ) : (
+                    <>
+                      <button
+                        onClick={() => handleEditTask(task.id, task.title)}
+                        className='button is-small is-info'
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => handleDeleteTask(task.id)}
+                        className='button is-small is-danger'
+                      >
+                        Delete
+                      </button>
+                    </>
+                  )}
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan='3'>No tasks available</td>
+            </tr>
+          )}
+        </tbody>
+      </table>
     </div>
   )
 }

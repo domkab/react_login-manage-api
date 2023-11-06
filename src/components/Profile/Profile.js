@@ -1,13 +1,8 @@
 import React, { useState } from 'react'
 import { updateProfile, getProfile } from '../../api/api'
 
-export function Profile () {
-  const defaultProfile = {
-    name: '',
-    username: '',
-    password: ''
-  }
-  const [profile, setProfile] = useState(defaultProfile)
+export function Profile ({ initialProfile }) {
+  const [profile, setProfile] = useState(initialProfile)
   const [editing, setEditing] = useState(false)
   const [formData, setFormData] = useState({
     name: '',
@@ -19,9 +14,11 @@ export function Profile () {
     setEditing(true)
     if (profile) {
       setFormData({
+        ...formData, // Spread the existing formData (if needed to preserve other fields)
         name: profile.name,
         username: profile.username,
-        password: profile.password
+        password: profile.password,
+        id: profile.id // Include the profileId here
       })
     }
   }
@@ -33,8 +30,10 @@ export function Profile () {
 
   const handleSubmit = async e => {
     e.preventDefault()
-    await updateProfile(formData)
+    const response = await updateProfile(profile.id, formData)
+    console.log('updateProfile response', response) 
     const updatedProfile = await getProfile()
+    console.log('updatedProfile', updatedProfile) 
     setProfile(updatedProfile)
     setEditing(false)
   }
