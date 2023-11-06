@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react'
-import { getProfile, updateProfile } from '../../api/api.js'
+import {
+  getProfile,
+  updateProfile,
+  createTask,
+  getTasks
+} from '../../api/api.js'
 
 export function Home () {
   const defaultProfile = {
     name: '',
     username: '',
-    password: '',
-    tasks: []
+    password: ''
   }
   const [profile, setProfile] = useState(defaultProfile)
   const [editing, setEditing] = useState(false)
@@ -15,19 +19,27 @@ export function Home () {
     username: '',
     password: ''
   })
+  const [tasks, setTasks] = useState([])
   const [newTask, setNewTask] = useState('')
   const [editingTaskId, setEditingTaskId] = useState(null)
   const [editingTaskText, setEditingTaskText] = useState('')
 
   useEffect(() => {
     getProfile().then(profile => {
-      if (profile && Array.isArray(profile.tasks)) {
-        setProfile(profile)
-      } else {
-        console.error('Failed to load profile or profile.tasks is not an array')
-      }
+      setProfile(profile)
     })
   }, [])
+
+  useEffect(() => {
+    if (profile.id) {
+      getTasks(profile.id).then(fetchedTasks => {
+        if (fetchedTasks) {
+          console.log('Tasks fetched: ', fetchedTasks)
+          setTasks(fetchedTasks)
+        }
+      })
+    }
+  }, [profile.id])
 
   const handleEdit = () => {
     setEditing(true)
@@ -48,7 +60,6 @@ export function Home () {
   const handleSubmit = async e => {
     e.preventDefault()
     await updateProfile(formData)
-    // Fetch the updated profile from the server
     const updatedProfile = await getProfile()
     setProfile(updatedProfile)
     setEditing(false)
@@ -58,10 +69,17 @@ export function Home () {
     setNewTask(e.target.value)
   }
 
+  // profileTasks
+
   const handleAddTask = () => {
-    // Replace with your actual implementation
-    // await createTask(newTask);
-    setNewTask('')
+    createTask(newTask, profile.id)
+      .then(task => {
+        setTasks(prevTasks => [...prevTasks, task])
+        setNewTask('')
+      })
+      .catch(error => {
+        console.error('Failed to create task:', error)
+      })
   }
 
   const handleEditTask = (taskId, taskText) => {
@@ -172,41 +190,43 @@ export function Home () {
               </button>
 
               <ul>
-                {profile.tasks
-                  ? profile.tasks.map(task =>
-                      editingTaskId === task.id ? (
-                        <li key={task.id}>
-                          <input
-                            type='text'
-                            value={editingTaskText}
-                            onChange={e => setEditingTaskText(e.target.value)}
-                          />
-                          <button
-                            onClick={handleUpdateTask}
-                            className='button is-link'
-                          >
-                            Save
-                          </button>
-                        </li>
-                      ) : (
-                        <li key={task.id}>
-                          {task.text}
-                          <button
-                            onClick={() => handleEditTask(task.id, task.text)}
-                            className='button is-link'
-                          >
-                            Edit
-                          </button>
-                          <button
-                            onClick={() => handleDeleteTask(task.id)}
-                            className='button is-danger'
-                          >
-                            Delete
-                          </button>
-                        </li>
-                      )
+                {tasks.length > 0 ? (
+                  tasks.map(task =>
+                    editingTaskId === task.id ? (
+                      <li key={task.id}>
+                        <input
+                          type='text'
+                          value={editingTaskText}
+                          onChange={e => setEditingTaskText(e.target.value)}
+                        />
+                        <button
+                          onClick={handleUpdateTask}
+                          className='button is-link'
+                        >
+                          Save
+                        </button>
+                      </li>
+                    ) : (
+                      <li key={task.id}>
+                        {task.title}
+                        <button
+                          onClick={() => handleEditTask(task.id, task.text)}
+                          className='button is-link'
+                        >
+                          Edit
+                        </button>
+                        <button
+                          onClick={() => handleDeleteTask(task.id)}
+                          className='button is-danger'
+                        >
+                          Delete
+                        </button>
+                      </li>
                     )
-                  : null}
+                  )
+                ) : (
+                  <li>No tasks available</li>
+                )}
               </ul>
             </div>
           </div>
@@ -217,3 +237,5 @@ export function Home () {
     </div>
   )
 }
+
+// prideti nauja uzduoti

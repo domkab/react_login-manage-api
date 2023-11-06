@@ -53,11 +53,17 @@ export const updateUser = (userId, updatedUser) =>
   put(`/users/${userId}`, updatedUser)
 export const deleteUser = userId => del(`/users/${userId}`)
 
-export const getTodos = () => get('/todos');
+export const getTodos = () => get('/todos')
 export const updateTodo = (todoId, updatedTodo) =>
-  put(`/todos/${todoId}`, updatedTodo);
-export const deleteTodo = todoId => del(`/todos/${todoId}`);
-export const createTodo = todo => post('/todos', todo);
+  put(`/todos/${todoId}`, updatedTodo)
+export const deleteTodo = todoId => del(`/todos/${todoId}`)
+export const createTodo = todo => post('/todos', todo)
 
-export const getProfile = () => get('/profile');
-export const updateProfile = (updatedProfile) => put('/profile', updatedProfile);
+export const getProfile = () => get('/profile')
+export const updateProfile = updatedProfile => put('/profile', updatedProfile)
+
+export const getTasks = profileId => get(`/tasks?profileId=${profileId}`)
+
+export const createTask = (newTask, profileId, completed = false) => {
+  return post('/tasks', { title: newTask, profileId, completed })
+}
