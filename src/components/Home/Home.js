@@ -6,13 +6,15 @@ import { ProfileTasks } from '../Profile/ProfileTasks.js'
 export function Home () {
   const [profile, setProfile] = useState(null)
 
-  console.log(profile);
-
   useEffect(() => {
     getProfile().then(fetchedProfile => {
       setProfile(fetchedProfile)
     })
   }, [])
+
+  const handleProfileUpdate = updatedProfile => {
+    setProfile(updatedProfile)
+  }
 
   return (
     <div className='section'>
@@ -20,7 +22,10 @@ export function Home () {
         {profile ? (
           <>
             <h1 className='title'>Hello, {profile.name}</h1>
-            <Profile initialProfile={profile} />
+            <Profile
+              initialProfile={profile}
+              onProfileUpdate={handleProfileUpdate}
+            />
             <ProfileTasks profileId={profile.id} />
           </>
         ) : (

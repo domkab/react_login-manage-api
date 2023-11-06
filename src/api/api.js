@@ -60,8 +60,8 @@ export const deleteTodo = todoId => del(`/todos/${todoId}`)
 export const createTodo = todo => post('/todos', todo)
 
 export const getProfile = () => get('/profile')
-export const updateProfile = (profileId, updatedProfile) => {
-  return put(`/profile/${profileId}`, updatedProfile)
+export const updateProfile = (updatedProfile) => {
+  return put(`/profile`, updatedProfile);
 }
 
 export const getTasks = profileId => get(`/tasks?profileId=${profileId}`)

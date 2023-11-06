@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { updateProfile, getProfile } from '../../api/api'
 
-export function Profile ({ initialProfile }) {
+export function Profile ({ initialProfile, onProfileUpdate }) {
   const [profile, setProfile] = useState(initialProfile)
   const [editing, setEditing] = useState(false)
   const [formData, setFormData] = useState({
@@ -14,11 +14,10 @@ export function Profile ({ initialProfile }) {
     setEditing(true)
     if (profile) {
       setFormData({
-        ...formData, // Spread the existing formData (if needed to preserve other fields)
         name: profile.name,
         username: profile.username,
         password: profile.password,
-        id: profile.id // Include the profileId here
+        id: profile.id
       })
     }
   }
@@ -29,14 +28,15 @@ export function Profile ({ initialProfile }) {
   }
 
   const handleSubmit = async e => {
-    e.preventDefault()
-    const response = await updateProfile(profile.id, formData)
-    console.log('updateProfile response', response) 
-    const updatedProfile = await getProfile()
-    console.log('updatedProfile', updatedProfile) 
-    setProfile(updatedProfile)
-    setEditing(false)
-  }
+    e.preventDefault();
+    const response = await updateProfile(formData);
+    console.log('updateProfile response', response);
+    const updatedProfile = await getProfile();
+    console.log('updatedProfile', updatedProfile);
+    setProfile(updatedProfile);
+    setEditing(false);
+    onProfileUpdate(updatedProfile); // Call the callback passed from the parent
+  };
 
   if (!profile) return <p>Loading...</p>
 
