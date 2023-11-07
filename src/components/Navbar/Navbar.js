@@ -1,29 +1,29 @@
-import React from 'react'
-import { Link } from 'react-router-dom';
-import './Navbar.scss'
+import React from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import './Navbar.scss';
 
-export function Navbar () {
+export function Navbar() {
+  const location = useLocation();
+
+  const getLinkClass = (path) => {
+    return `navbar-item ${location.pathname === path ? 'is-active' : ''}`;
+  };
+
   return (
-    <nav
-      className='navbar custom-navbar'
-      role='navigation'
-      aria-label='main navigation'
-    >
+    <nav className='navbar custom-navbar' role='navigation' aria-label='main navigation'>
       <div className='navbar-menu'>
         <div className='navbar-start'>
-          <Link className='navbar-item' to='/'>
+          <Link className={getLinkClass('/')} to='/'>
             Home
           </Link>
-
-          <Link className='navbar-item' to='/users'>
+          <Link className={getLinkClass('/users')} to='/users'>
             Users
           </Link>
-
-          <Link className='navbar-item' to='/todos'>
+          <Link className={getLinkClass('/todos')} to='/todos'>
             Todos
           </Link>
         </div>
       </div>
     </nav>
-  )
+  );
 }

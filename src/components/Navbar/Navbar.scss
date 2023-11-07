@@ -1,6 +1,24 @@
 .custom-navbar {
   justify-content: center;
 
+  .navbar-item {
+    position: relative;
+    &::after {
+      content: '';
+      display: block;
+      width: 0;
+      height: 2px; 
+      background: rgb(106, 106, 252);
+      transition: width 0.3s; 
+      position: absolute;
+      bottom: 10%;
+      left: 0;
+    }
+
+    &.is-active::after {
+      width: 100%;
+    }
+  }
   .navbar-start {
     display: flex;
     justify-content: center;

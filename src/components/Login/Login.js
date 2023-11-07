@@ -13,10 +13,8 @@ export function Login () {
 
   const handleLogin = async event => {
     event.preventDefault()
-    console.log('handleLogin called')
     try {
       const profile = await getProfile()
-      console.log('Profile fetched:', profile)
       if (profile.username === username && profile.password === password) {
         console.log('Credentials match')
         login(profile)
