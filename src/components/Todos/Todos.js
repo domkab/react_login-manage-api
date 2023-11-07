@@ -104,20 +104,20 @@ export const Todos = () => {
       userId: parseInt(newTodoUserId, 10),
       title: newTodoTitle,
       completed: false
-    };
-  
+    }
+
     createTodo(newTodoData)
       .then(addedTodo => {
-        setTodos(todos => [...todos, addedTodo]);
-        setFilteredTodos(filtered => [...filtered, addedTodo]);
-        setNewTodoTitle('');
-        setNewTodoUserId('');
-        setShowAddTodoModal(false);
+        setTodos(todos => [...todos, addedTodo])
+        setFilteredTodos(filtered => [...filtered, addedTodo])
+        setNewTodoTitle('')
+        setNewTodoUserId('')
+        setShowAddTodoModal(false)
       })
       .catch(error => {
-        console.error('Error adding todo:', error);
-      });
-  };
+        console.error('Error adding todo:', error)
+      })
+  }
 
   const handleShowAddTodoModal = () => {
     setShowAddTodoModal(true)
@@ -145,22 +145,27 @@ export const Todos = () => {
             <h1 className='title'>Todos:</h1>
 
             <div className='block'>
-              <button
-                className='button is-info is-pulled-right'
-                onClick={handleShowAddTodoModal}
-              >
-                <span className='icon is-small'>
-                  <i className='fas fa-plus'></i>
-                </span>
-                <span>Add Todo</span>
-              </button>
-
-              <TodoFilter
-                onFilter={handleSearch}
-                onResetSearch={handleResetSearch}
-                searchQuery={searchQuery}
-                sortOptionChange={handleSortChange}
-              />
+              <div className='columns is-mobile is-multiline is-align-items-center'>
+                <div className='column is-narrow'>
+                  <button
+                    className='button is-info'
+                    onClick={handleShowAddTodoModal}
+                  >
+                    <span className='icon is-small'>
+                      <i className='fas fa-plus'></i>
+                    </span>
+                    <span>Add Todo</span>
+                  </button>
+                </div>
+                <div className='column is-flex-grow-1'>
+                  <TodoFilter
+                    onFilter={handleSearch}
+                    onResetSearch={handleResetSearch}
+                    searchQuery={searchQuery}
+                    sortOptionChange={handleSortChange}
+                  />
+                </div>
+              </div>
             </div>
 
             {showAddTodoModal && (

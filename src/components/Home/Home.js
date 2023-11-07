@@ -35,10 +35,3 @@ export function Home () {
     </div>
   )
 }
-
-// "profile": {
-//   "name": "Namie Surnamie",
-//   "username": "a",
-//   "password": "1",
-//   "id": "1"
-// },

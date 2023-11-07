@@ -35,7 +35,7 @@ export function Profile ({ initialProfile, onProfileUpdate }) {
     console.log('updatedProfile', updatedProfile);
     setProfile(updatedProfile);
     setEditing(false);
-    onProfileUpdate(updatedProfile); // Call the callback passed from the parent
+    onProfileUpdate(updatedProfile);
   };
 
   if (!profile) return <p>Loading...</p>

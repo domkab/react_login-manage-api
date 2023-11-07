@@ -1,15 +1,13 @@
 {
   "profile": {
-    "name": "Namie Surnamie",
-    "username": "a",
-    "password": "1",
+    "name": "Namie Surnamieeee",
+    "username": "admin",
+    "password": "admin",
     "id": "1"
   },
   "tasks": [
     {
-      "title": "eeeeee",
-      "profileId": "1",
-      "completed": false,
+      "title": "eeeeeedd",
       "id": 1
     }
   ],

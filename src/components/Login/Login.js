@@ -82,6 +82,10 @@ export function Login () {
                   </button>
                 </div>
               </div>
+
+              <p className='help is-info'>
+                Hint: Use "admin" for both username and password.
+              </p>
             </form>
           </div>
         </div>
