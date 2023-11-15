@@ -14,7 +14,7 @@ This repository hosts a dynamic and rapidly developed web application showcasing
 
 - **Todo Management**: Implements a robust system for managing todos, with capabilities for adding, editing, and deleting tasks as per user requirements, each todo can be assigned to user, creating a data relationship.
 
-- **User Management**: Similar to the ToDo functionality, the application allows for comprehensive management of user profiles, enhancing the user experience.
+- **User Management**: Similar to the Todo functionality, the application allows for comprehensive management of user profiles, enhancing the adminstrative experience, this could be used for administrator to edit add and delete any form of data, users are just used as mock up.
 
 - **Note for future**: This is just a base app, however it has laid a solid ground for this app to grow, with many potential UI improvements possible to be implemented in the future 
 ## Technologies Used
