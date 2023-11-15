@@ -16,7 +16,8 @@ This repository hosts a dynamic and rapidly developed web application showcasing
 
 - **User Management**: Similar to the Todo functionality, the application allows for comprehensive management of user profiles, enhancing the adminstrative experience, this could be used for administrator to edit add and delete any form of data, users are just used as mock up.
 
-- **Note for future**: This is just a base app, however it has laid a solid ground for this app to grow, with many potential UI improvements possible to be implemented in the future 
+- **Note for future**: This is just a base app, however it has laid a solid ground for this app to grow, with many potential UI improvements possible to be implemented in the future
+- If the application further grows and improves TypeScript with Redux is a consideration
 ## Technologies Used
 
 - **React**: For a responsive and component-driven user interface.
