@@ -1,4 +1,4 @@
-const BASE_URL = 'http://localhost:3000'
+const BASE_URL = 'https://my-json-server.typicode.com/domkab/manage-users-api'
 
 function wait (delay) {
   return new Promise(resolve => {
