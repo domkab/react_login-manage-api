@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/react_login-manage-api/static/css/main.61047a3a.css",
-    "main.js": "/react_login-manage-api/static/js/main.951c6e6e.js",
+    "main.js": "/react_login-manage-api/static/js/main.c0d2eaac.js",
     "static/media/fa-solid-900.ttf": "/react_login-manage-api/static/media/fa-solid-900.d75e3fd1eb12e9bd6655.ttf",
     "static/media/fa-brands-400.ttf": "/react_login-manage-api/static/media/fa-brands-400.016b4a6cdced82ab3aa1.ttf",
     "static/media/fa-solid-900.woff2": "/react_login-manage-api/static/media/fa-solid-900.b6879d41b0852f01ed5b.woff2",
@@ -12,10 +12,10 @@
     "static/media/fa-v4compatibility.woff2": "/react_login-manage-api/static/media/fa-v4compatibility.1bac2991f3dbfa237aec.woff2",
     "index.html": "/react_login-manage-api/index.html",
     "main.61047a3a.css.map": "/react_login-manage-api/static/css/main.61047a3a.css.map",
-    "main.951c6e6e.js.map": "/react_login-manage-api/static/js/main.951c6e6e.js.map"
+    "main.c0d2eaac.js.map": "/react_login-manage-api/static/js/main.c0d2eaac.js.map"
   },
   "entrypoints": [
     "static/css/main.61047a3a.css",
-    "static/js/main.951c6e6e.js"
+    "static/js/main.c0d2eaac.js"
   ]
 }
